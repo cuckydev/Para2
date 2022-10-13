@@ -39,6 +39,7 @@ CXXFLAGS += -MMD -MP
 SRCS = \
 	src/main/main.c \
 	src/os/mtc.c \
+	src/os/syssub.c \
 	src/os/system.c
 
 # Objects

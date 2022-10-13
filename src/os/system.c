@@ -3,14 +3,43 @@
 #include <libcdvd.h>
 #include <devvif0.h>
 #include <devvu0.h>
+#include <libgraph.h>
 
 #include <stdlib.h>
 
 #include "os/mtc.h"
+#include "os/syssub.h"
+
 #include "macro.h"
+#include "config.h"
+
+// System globals
+const char *iop_module[11] = {
+	"cdrom0:\\IRX\\SIO2MAN.IRX;1",
+	"cdrom0:\\IRX\\PADMAN.IRX;1",
+	"cdrom0:\\IRX\\LIBSD.IRX;1",
+	"cdrom0:\\IRX\\SDRDRV.IRX;1",
+	"cdrom0:\\IRX\\MODMIDI.IRX;1",
+	"cdrom0:\\IRX\\MODHSYN.IRX;1",
+	"cdrom0:\\IRX\\MODMSIN.IRX;1",
+	"cdrom0:\\IRX\\MCMAN.IRX;1",
+	"cdrom0:\\IRX\\MCSERV.IRX;1",
+	"cdrom0:\\IRX\\WAFE2PS2.IRX;1",
+	"cdrom0:\\IRX\\TAPCTRL.IRX;1",
+	"cdrom0:\\IRX\\SIO2MAN.IRX;1",
+};
+
+sceGsDBuffDc DBufDc;
 
 // Forward declares
-static void systemInit(void);
+static void initSystem(void);
+static void exitSystem(void);
+
+// System control main thread
+static void systemCtrlMain(void *user)
+{
+	return;
+}
 
 // Malloc
 extern char _end __attribute__((section(".data")));
@@ -43,30 +72,20 @@ int main(int argc, char *argv[])
 	// System loop
 	while (1)
 	{
-		// Initialize Mtc
+		// Initialize systems
 		MtcInit();
+		initSystem();
+		
+		// Start game
+		MtcStart(systemCtrlMain);
 
-		// Initialize system
-		systemInit();
+		// Quit systems
+		MtcQuit();
+		exitSystem();
 	}
 }
 
 // System
-static const char *iop_module[11] = {
-	"cdrom0:\\IRX\\SIO2MAN.IRX;1",
-	"cdrom0:\\IRX\\PADMAN.IRX;1",
-	"cdrom0:\\IRX\\LIBSD.IRX;1",
-	"cdrom0:\\IRX\\SDRDRV.IRX;1",
-	"cdrom0:\\IRX\\MODMIDI.IRX;1",
-	"cdrom0:\\IRX\\MODHSYN.IRX;1",
-	"cdrom0:\\IRX\\MODMSIN.IRX;1",
-	"cdrom0:\\IRX\\MCMAN.IRX;1",
-	"cdrom0:\\IRX\\MCSERV.IRX;1",
-	"cdrom0:\\IRX\\WAFE2PS2.IRX;1",
-	"cdrom0:\\IRX\\TAPCTRL.IRX;1",
-	"cdrom0:\\IRX\\SIO2MAN.IRX;1",
-};
-
 int SetIopModule(void)
 {
 	int i;
@@ -100,7 +119,36 @@ int SetIopModule(void)
 	return 0;
 }
 
-static void systemInit(void)
+static void firstClrFrameBuffer(void)
+{
+	/*
+	// Initialize packet
+	struct
+	{
+		sceGifTag giftag;
+		sceGsDrawEnv1 draw;
+		sceGsClear clear;
+	} packet;
+
+	SCE_GIF_CLEAR_TAG(&packet.giftag);
+	packet.giftag.NLOOP = 8;
+	packet.giftag.EOP = 1;
+	packet.giftag.NREG = 1;
+	packet.giftag.REGS0 = 0xE;
+
+	sceGsSetDefDrawEnv(&packet.draw, SCE_GS_PSMCT32, SCREEN_WIDTH, SCREEN_HEIGHT, SCE_GS_ZNOUSE, SCE_GS_ZNOUSE);
+	sceGsSetDefClear(&packet.clear, SCE_GS_ZNOUSE, 2048 - (SCREEN_WIDTH >> 1), 2048 - (SCREEN_HEIGHT >> 1), SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 0, 0);
+
+	// Send packet
+	sceDmaSync(sceDmaGetChan(SCE_DMA_GIF), 0, 0x7FFFFFFF);
+	FlushCache(0);
+
+	sceDmaSend(sceDmaGetChan(SCE_DMA_GIF), &packet);
+	sceGsSyncPath(0, 0);
+	*/
+}
+
+static void initSystem(void)
 {
 	// Read modules from CD
 	SetIopModule();	
@@ -110,4 +158,17 @@ static void systemInit(void)
 	sceDevVu0Reset();
 	sceGsResetPath();
 	sceDmaReset(1);
+
+	// GPU init
+	firstClrFrameBuffer();
+	sceGsSyncV(0);
+	sceGsResetGraph(0, SCE_GS_INTERLACE, SCE_GS_NTSC, SCE_GS_FRAME);
+
+	sceGsSetDefDBuffDc(&DBufDc, SCE_GS_PSMCT32, SCREEN_WIDTH, SCREEN_HEIGHT, SCE_GS_DEPTH_GEQUAL, SCE_GS_PSMZ32, 1);
+	SetBackColor(0, 0, 0);
+}
+
+static void exitSystem(void)
+{
+
 }

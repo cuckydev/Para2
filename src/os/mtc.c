@@ -96,7 +96,7 @@ char mtcStack_Ctrl[0x1000] __attribute__((aligned(16)));
 
 static short th_id_Ctrl;
 
-void MtcChangeThCtrl(void *unk)
+void MtcChangeThCtrl(void *user)
 {
 	return;
 }
