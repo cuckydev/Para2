@@ -1,0 +1,11 @@
+# Userdata
+.vs/
+.vscode/
+
+# Compiled files
+obj/
+*.elf
+
+# Game image
+iso/
+*.iso
