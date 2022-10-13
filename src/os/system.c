@@ -30,6 +30,10 @@ const char *iop_module[11] = {
 };
 
 sceGsDBuffDc DBufDc;
+int outbuf_idx = 0, oddeven_idx = 0;
+
+sceGsDrawEnv1 *drawEnvP[5];
+static sceGsDrawEnv1 drawEnvSp, drawEnvZbuff, drawEnvEnd;
 
 // Forward declares
 static void initSystem(void);
@@ -121,20 +125,30 @@ int SetIopModule(void)
 
 static void firstClrFrameBuffer(void)
 {
-	/*
-	// Initialize packet
+	// Setup packet
 	struct
 	{
+		long p0 : 16; // TODO
+		long p1 : 8;
+		long p2 : 8;
+		long p3 : 32;
 		sceGifTag giftag;
 		sceGsDrawEnv1 draw;
 		sceGsClear clear;
 	} packet;
 
-	SCE_GIF_CLEAR_TAG(&packet.giftag);
-	packet.giftag.NLOOP = 8;
+	packet.p0 = 15;
+	packet.p2 = 0;
+	packet.p3 = &packet.giftag;
+
+	// SCE_GIF_CLEAR_TAG(&packet.giftag);
+	packet.giftag.NLOOP = 14;
 	packet.giftag.EOP = 1;
+	packet.giftag.FLG = 0;
 	packet.giftag.NREG = 1;
-	packet.giftag.REGS0 = 0xE;
+	packet.giftag.REGS0 = 14;
+
+	packet.clear.rgbaq.Q = 1.0f;
 
 	sceGsSetDefDrawEnv(&packet.draw, SCE_GS_PSMCT32, SCREEN_WIDTH, SCREEN_HEIGHT, SCE_GS_ZNOUSE, SCE_GS_ZNOUSE);
 	sceGsSetDefClear(&packet.clear, SCE_GS_ZNOUSE, 2048 - (SCREEN_WIDTH >> 1), 2048 - (SCREEN_HEIGHT >> 1), SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 0, 0);
@@ -145,7 +159,6 @@ static void firstClrFrameBuffer(void)
 
 	sceDmaSend(sceDmaGetChan(SCE_DMA_GIF), &packet);
 	sceGsSyncPath(0, 0);
-	*/
 }
 
 static void initSystem(void)
@@ -166,9 +179,34 @@ static void initSystem(void)
 
 	sceGsSetDefDBuffDc(&DBufDc, SCE_GS_PSMCT32, SCREEN_WIDTH, SCREEN_HEIGHT, SCE_GS_DEPTH_GEQUAL, SCE_GS_PSMZ32, 1);
 	SetBackColor(0, 0, 0);
+
+	*T0_MODE = T_MODE_CLKS_M | T_MODE_CUE_M;
+
+	outbuf_idx = 0;
+
+	FlushCache(0);
+	sceGsSyncPath(0, 0);
+	sceGsSwapDBuffDc(&DBufDc, outbuf_idx);
+
+	drawEnvP[0] = &DBufDc.draw01;
+	drawEnvP[1] = &DBufDc.draw11;
+
+	drawEnvSp = DBufDc.draw01;
+	drawEnvSp.frame1.FBP = 0xD2;
+	drawEnvP[2] = &drawEnvSp;
+	sceGsSetHalfOffset(&drawEnvSp, 0x800, 0x800, 0);
+
+	drawEnvZbuff = DBufDc.draw01;
+	drawEnvZbuff.frame1.FBP = 0x8C;
+	drawEnvP[3] = &drawEnvZbuff;
+	sceGsSetHalfOffset(&drawEnvSp, 0x800, 0x800, 0);
+
+	drawEnvEnd = DBufDc.draw01;
+	drawEnvEnd.frame1.FBP = 0x140;
+	drawEnvP[4] = &drawEnvEnd;
+	sceGsSetHalfOffset(&drawEnvSp, 0x800, 0x800, 0);
 }
 
 static void exitSystem(void)
 {
-
 }

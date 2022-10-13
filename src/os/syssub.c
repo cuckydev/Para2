@@ -10,8 +10,5 @@ void SetBackColor(int r, int g, int b)
 	DBufDc.clear0.rgbaq.G = g;
 	DBufDc.clear0.rgbaq.B = b;
 
-	DBufDc.clear1.rgbaq.R = r;
-	DBufDc.clear1.rgbaq.G = g;
-	DBufDc.clear1.rgbaq.B = b;
-	DBufDc.clear1.rgbaq.A = DBufDc.clear0.rgbaq.A;
+	DBufDc.clear1.rgbaq = DBufDc.clear0.rgbaq;
 }
