@@ -22,7 +22,8 @@ LIBS = \
 	$(LIBDIR)/libvu0.a \
 	$(LIBDIR)/libdev.a \
 	$(LIBDIR)/libdma.a \
-	$(LIBDIR)/libcdvd.a
+	$(LIBDIR)/libcdvd.a \
+	$(LIBDIR)/libpkt.a
 
 CFLAGS = -O2 -Wa,-al -fno-common -G0 -Isrc -I$(TOP)/../common/include -I$(TOP)/include
 CXXFLAGS = $(CFLAGS) -fno-exceptions
@@ -40,7 +41,8 @@ SRCS = \
 	src/main/main.c \
 	src/os/mtc.c \
 	src/os/syssub.c \
-	src/os/system.c
+	src/os/system.c \
+	src/os/cmngifpk.c
 
 # Objects
 OBJS = $(addprefix obj/, $(addsuffix .o, $(SRCS)))

@@ -35,6 +35,8 @@ int outbuf_idx = 0, oddeven_idx = 0;
 sceGsDrawEnv1 *drawEnvP[5];
 static sceGsDrawEnv1 drawEnvSp, drawEnvZbuff, drawEnvEnd;
 
+static u_long128 GifPkCommon[0x2000];
+
 // Forward declares
 static void initSystem(void);
 static void exitSystem(void);
@@ -128,14 +130,14 @@ static void firstClrFrameBuffer(void)
 	// Setup packet
 	struct
 	{
-		long p0 : 16; // TODO
+		long p0 : 16; // TODO: What is this?
 		long p1 : 8;
 		long p2 : 8;
 		long p3 : 32;
 		sceGifTag giftag;
 		sceGsDrawEnv1 draw;
 		sceGsClear clear;
-	} packet;
+	} packet MACRO_AL16;
 
 	packet.p0 = 15;
 	packet.p2 = 0;
@@ -177,6 +179,7 @@ static void initSystem(void)
 	sceGsSyncV(0);
 	sceGsResetGraph(0, SCE_GS_INTERLACE, SCE_GS_NTSC, SCE_GS_FRAME);
 
+	// Initialize double buffer draw
 	sceGsSetDefDBuffDc(&DBufDc, SCE_GS_PSMCT32, SCREEN_WIDTH, SCREEN_HEIGHT, SCE_GS_DEPTH_GEQUAL, SCE_GS_PSMZ32, 1);
 	SetBackColor(0, 0, 0);
 
@@ -188,6 +191,7 @@ static void initSystem(void)
 	sceGsSyncPath(0, 0);
 	sceGsSwapDBuffDc(&DBufDc, outbuf_idx);
 
+	// Initialize draw environments
 	drawEnvP[0] = &DBufDc.draw01;
 	drawEnvP[1] = &DBufDc.draw11;
 
@@ -205,6 +209,10 @@ static void initSystem(void)
 	drawEnvEnd.frame1.FBP = 0x140;
 	drawEnvP[4] = &drawEnvEnd;
 	sceGsSetHalfOffset(&drawEnvSp, 0x800, 0x800, 0);
+
+	// Initialize common GIF
+	CmnGifInit(GifPkCommon, MACRO_COUNTOF(GifPkCommon));
+	CmnGifClear();
 }
 
 static void exitSystem(void)

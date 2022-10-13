@@ -1,6 +1,6 @@
-#include "syssub.h"
+#include "os/syssub.h"
 
-#include "system.h"
+#include "os/system.h"
 
 // Syssub functions
 void SetBackColor(int r, int g, int b)

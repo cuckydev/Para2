@@ -8,22 +8,22 @@
 #define MTC_STACK_CHECK 0x572a8b4c
 
 // Mtc stacks
-char mtcStack_CTRL[0x1000] __attribute__((aligned(16)));
-char mtcStack_MAIN[0x1000] __attribute__((aligned(16)));
-char mtcStack_02[0x100] __attribute__((aligned(16)));
-char mtcStack_03[0x800] __attribute__((aligned(16)));
-char mtcStack_04[0x1000] __attribute__((aligned(16)));
-char mtcStack_05[0x4000] __attribute__((aligned(16)));
-char mtcStack_06[0x100] __attribute__((aligned(16)));
-char mtcStack_07[0x4000] __attribute__((aligned(16)));
-char mtcStack_08[0x100] __attribute__((aligned(16)));
-char mtcStack_09[0x100] __attribute__((aligned(16)));
-char mtcStack_0A[0x1000] __attribute__((aligned(16)));
-char mtcStack_0B[0x100] __attribute__((aligned(16)));
-char mtcStack_0C[0x100] __attribute__((aligned(16)));
-char mtcStack_0D[0x1000] __attribute__((aligned(16)));
-char mtcStack_0E[0x100] __attribute__((aligned(16)));
-char mtcStack_0F[0x1000] __attribute__((aligned(16)));
+char mtcStack_CTRL[0x1000] MACRO_AL16;
+char mtcStack_MAIN[0x1000] MACRO_AL16;
+char mtcStack_02[0x100] MACRO_AL16;
+char mtcStack_03[0x800] MACRO_AL16;
+char mtcStack_04[0x1000] MACRO_AL16;
+char mtcStack_05[0x4000] MACRO_AL16;
+char mtcStack_06[0x100] MACRO_AL16;
+char mtcStack_07[0x4000] MACRO_AL16;
+char mtcStack_08[0x100] MACRO_AL16;
+char mtcStack_09[0x100] MACRO_AL16;
+char mtcStack_0A[0x1000] MACRO_AL16;
+char mtcStack_0B[0x100] MACRO_AL16;
+char mtcStack_0C[0x100] MACRO_AL16;
+char mtcStack_0D[0x1000] MACRO_AL16;
+char mtcStack_0E[0x100] MACRO_AL16;
+char mtcStack_0F[0x1000] MACRO_AL16;
 
 // Mtc tasks
 #define MTC_TASK_PRI 0x11
@@ -92,7 +92,7 @@ int mtcSemaEnd;
 #define MTC_CTRL_PRI 0x12
 
 static struct ThreadParam th_para_Ctrl;
-char mtcStack_Ctrl[0x1000] __attribute__((aligned(16)));
+char mtcStack_Ctrl[0x1000] MACRO_AL16;
 
 static short th_id_Ctrl;
 
@@ -145,7 +145,7 @@ void MtcQuit(void)
 	DeleteSema(mtcSemaEnd);
 
 	// Kill tasks
-	for (i = 0; i < (sizeof(mtcTaskConB) / sizeof(mtcTaskConB[0])); i++)
+	for (i = 0; i < MACRO_COUNTOF(mtcTaskConB); i++)
 		MtcKill(i);
 }
 
