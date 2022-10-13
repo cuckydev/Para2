@@ -38,11 +38,12 @@ CXXFLAGS += -MMD -MP
 
 # Sources
 SRCS = \
-	src/main/main.c \
+	src/dbug/syori.c \
 	src/os/mtc.c \
 	src/os/syssub.c \
 	src/os/system.c \
-	src/os/cmngifpk.c
+	src/os/cmngifpk.c \
+	src/main/main.c
 
 # Objects
 OBJS = $(addprefix obj/, $(addsuffix .o, $(SRCS)))

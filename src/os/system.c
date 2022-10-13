@@ -9,6 +9,7 @@
 
 #include "os/mtc.h"
 #include "os/syssub.h"
+#include "dbug/syori.h"
 
 #include "macro.h"
 #include "config.h"
@@ -141,7 +142,7 @@ static void firstClrFrameBuffer(void)
 
 	packet.p0 = 15;
 	packet.p2 = 0;
-	packet.p3 = &packet.giftag;
+	packet.p3 = (long)&packet.giftag;
 
 	// SCE_GIF_CLEAR_TAG(&packet.giftag);
 	packet.giftag.NLOOP = 14;
@@ -213,6 +214,15 @@ static void initSystem(void)
 	// Initialize common GIF
 	CmnGifInit(GifPkCommon, MACRO_COUNTOF(GifPkCommon));
 	CmnGifClear();
+
+	// Initialize debug
+	SyoriLineInit(0x100);
+
+	// Wait for odd field
+	do {} while (sceGsSyncV(0) == 0);
+
+	// Initialize user malloc
+
 }
 
 static void exitSystem(void)
