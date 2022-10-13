@@ -17,13 +17,18 @@ OBJDUMP = $(PREFIX)-objdump
 TARGET = para
 
 LCFILE = $(LIBDIR)/app.cmd
-LIBS = $(LIBDIR)/libgraph.a
+LIBS = \
+	$(LIBDIR)/libgraph.a \
+	$(LIBDIR)/libvu0.a \
+	$(LIBDIR)/libdev.a \
+	$(LIBDIR)/libdma.a \
+	$(LIBDIR)/libcdvd.a
 
 CFLAGS = -O2 -Wa,-al -fno-common -G0 -Isrc -I$(TOP)/../common/include -I$(TOP)/include
 CXXFLAGS = $(CFLAGS) -fno-exceptions
 ASFLAGS = -c -xassembler-with-cpp -Wa,-al
 DVPASMFLAGS =
-LDFLAGS = -Wl,-Map,$(TARGET).map -mno-crt0 -L$(TOP)/lib -lpad -lsdr -lm
+LDFLAGS = -Wl,-Map,$(TARGET).map -mno-crt0 -L$(TOP)/lib
 TMPFLAGS =
 
 # Dependency flags
