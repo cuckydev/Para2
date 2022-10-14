@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<iso_project image_name="para.iso">
+	<track type="data">
+		<identifiers
+			system = "PLAYSTATION"
+			application = "PLAYSTATION"
+			publisher = "SCEI"
+			copyright = "SCEI"
+			volume = ""
+			data_preparer = ""
+		/>
+
+		<directory_tree>
+			<file name="system.cnf" type="data" source="iso/SYSTEM.CNF"/>
+			<file name="scps_150.17" type="data" source="iso/SCPS_150.17"/>
+			<!--
+			<dir name="data" source="iso/DATA">
+				<file name="logo.int" type="data" source="iso/DATA/LOGO.INT"/>
+				<file name="st01gm0.int" type="data" source="iso/DATA/ST01GM0.INT"/>
+				<file name="st01hk0.int" type="data" source="iso/DATA/ST01HK0.INT"/>
+				<file name="st02gm0.int" type="data" source="iso/DATA/ST02GM0.INT"/>
+				<file name="st02hk0.int" type="data" source="iso/DATA/ST02HK0.INT"/>
+				<file name="st03gm0.int" type="data" source="iso/DATA/ST03GM0.INT"/>
+				<file name="st03hk0.int" type="data" source="iso/DATA/ST03HK0.INT"/>
+				<file name="st04gm0.int" type="data" source="iso/DATA/ST04GM0.INT"/>
+				<file name="st04hk0.int" type="data" source="iso/DATA/ST04HK0.INT"/>
+				<file name="st05gm0.int" type="data" source="iso/DATA/ST05GM0.INT"/>
+				<file name="st05hk0.int" type="data" source="iso/DATA/ST05HK0.INT"/>
+				<file name="st06gm0.int" type="data" source="iso/DATA/ST06GM0.INT"/>
+				<file name="st06hk0.int" type="data" source="iso/DATA/ST06HK0.INT"/>
+				<file name="st07gm0.int" type="data" source="iso/DATA/ST07GM0.INT"/>
+				<file name="st07hk0.int" type="data" source="iso/DATA/ST07HK0.INT"/>
+				<file name="st08gm0.int" type="data" source="iso/DATA/ST08GM0.INT"/>
+				<file name="stbn.int" type="data" source="iso/DATA/STBN.INT"/>
+				<file name="stmenu.int" type="data" source="iso/DATA/STMENU.INT"/>
+				<file name="title.int" type="data" source="iso/DATA/TITLE.INT"/>
+				<file name="vs01vs0.int" type="data" source="iso/DATA/VS01VS0.INT"/>
+				<file name="vs02vs0.int" type="data" source="iso/DATA/VS02VS0.INT"/>
+				<file name="vs03vs0.int" type="data" source="iso/DATA/VS03VS0.INT"/>
+				<file name="vs04vs0.int" type="data" source="iso/DATA/VS04VS0.INT"/>
+				<file name="vs05vs0.int" type="data" source="iso/DATA/VS05VS0.INT"/>
+				<file name="vs06vs0.int" type="data" source="iso/DATA/VS06VS0.INT"/>
+				<file name="vs07vs0.int" type="data" source="iso/DATA/VS07VS0.INT"/>
+				<file name="vs08vs0.int" type="data" source="iso/DATA/VS08VS0.INT"/>
+			</dir>
+			<dir name="datas" source="iso/DATAS">
+				<file name="st00sr0.int" type="data" source="iso/DATAS/ST00SR0.INT"/>
+				<file name="st01sr0.int" type="data" source="iso/DATAS/ST01SR0.INT"/>
+				<file name="st01sr1.int" type="data" source="iso/DATAS/ST01SR1.INT"/>
+				<file name="st02sr0.int" type="data" source="iso/DATAS/ST02SR0.INT"/>
+				<file name="st02sr1.int" type="data" source="iso/DATAS/ST02SR1.INT"/>
+				<file name="st03sr0.int" type="data" source="iso/DATAS/ST03SR0.INT"/>
+				<file name="st03sr1.int" type="data" source="iso/DATAS/ST03SR1.INT"/>
+				<file name="st04sr0.int" type="data" source="iso/DATAS/ST04SR0.INT"/>
+				<file name="st04sr1.int" type="data" source="iso/DATAS/ST04SR1.INT"/>
+				<file name="st05sr0.int" type="data" source="iso/DATAS/ST05SR0.INT"/>
+				<file name="st05sr1.int" type="data" source="iso/DATAS/ST05SR1.INT"/>
+				<file name="st06sr0.int" type="data" source="iso/DATAS/ST06SR0.INT"/>
+				<file name="st06sr1.int" type="data" source="iso/DATAS/ST06SR1.INT"/>
+				<file name="st07sr0.int" type="data" source="iso/DATAS/ST07SR0.INT"/>
+				<file name="st07sr1.int" type="data" source="iso/DATAS/ST07SR1.INT"/>
+				<file name="st08sr0.int" type="data" source="iso/DATAS/ST08SR0.INT"/>
+				<file name="st09sr0.int" type="data" source="iso/DATAS/ST09SR0.INT"/>
+			</dir>
+			<dir name="ext" source="iso/EXT">
+				<file name="ext00.wp2" type="data" source="iso/EXT/EXT00.WP2"/>
+				<file name="ext01.wp2" type="data" source="iso/EXT/EXT01.WP2"/>
+				<file name="ext02.wp2" type="data" source="iso/EXT/EXT02.WP2"/>
+				<file name="ext03.wp2" type="data" source="iso/EXT/EXT03.WP2"/>
+				<file name="ext04.wp2" type="data" source="iso/EXT/EXT04.WP2"/>
+				<file name="ext05.wp2" type="data" source="iso/EXT/EXT05.WP2"/>
+				<file name="ext06.wp2" type="data" source="iso/EXT/EXT06.WP2"/>
+				<file name="ext07.wp2" type="data" source="iso/EXT/EXT07.WP2"/>
+				<file name="ext08.wp2" type="data" source="iso/EXT/EXT08.WP2"/>
+				<file name="ext09.wp2" type="data" source="iso/EXT/EXT09.WP2"/>
+				<file name="title.wp2" type="data" source="iso/EXT/TITLE.WP2"/>
+			</dir>
+			-->
+			<dir name="irx" source="iso/IRX">
+				<file name="ioprp23.img" type="data" source="iso/IRX/ioprp300.img"/>
+				<file name="libsd.irx" type="data" source="iso/IRX/libsd.irx"/>
+				<file name="mcman.irx" type="data" source="iso/IRX/mcman.irx"/>
+				<file name="mcserv.irx" type="data" source="iso/IRX/mcserv.irx"/>
+				<file name="modhsyn.irx" type="data" source="iso/IRX/modhsyn.irx"/>
+				<file name="modmidi.irx" type="data" source="iso/IRX/modmidi.irx"/>
+				<file name="modmsin.irx" type="data" source="iso/IRX/modmsin.irx"/>
+				<file name="padman.irx" type="data" source="iso/IRX/padman.irx"/>
+				<file name="sdrdrv.irx" type="data" source="iso/IRX/sdrdrv.irx"/>
+				<file name="sio2man.irx" type="data" source="iso/IRX/sio2man.irx"/>
+			</dir>
+			<!--
+			<dir name="MDL" source="iso/MDL">
+				<file name="stg00.olm" type="data" source="iso/MDL/STG00.OLM"/>
+				<file name="stg01.olm" type="data" source="iso/MDL/STG01.OLM"/>
+				<file name="stg02.olm" type="data" source="iso/MDL/STG02.OLM"/>
+				<file name="stg03.olm" type="data" source="iso/MDL/STG03.OLM"/>
+				<file name="stg04.olm" type="data" source="iso/MDL/STG04.OLM"/>
+				<file name="stg05.olm" type="data" source="iso/MDL/STG05.OLM"/>
+				<file name="stg06.olm" type="data" source="iso/MDL/STG06.OLM"/>
+				<file name="stg07.olm" type="data" source="iso/MDL/STG07.OLM"/>
+				<file name="stg08.olm" type="data" source="iso/MDL/STG08.OLM"/>
+				<file name="stg09.olm" type="data" source="iso/MDL/STG09.OLM"/>
+				<file name="stgbn.olm" type="data" source="iso/MDL/STGBN.OLM"/>
+			</dir>
+			<dir name="SND" source="iso/SND">
+				<file name="st01gm0c.wp2" type="data" source="iso/SND/ST01GM0C.WP2"/>
+				<file name="st01gm0g.wp2" type="data" source="iso/SND/ST01GM0G.WP2"/>
+				<file name="st01gm0n.wp2" type="data" source="iso/SND/ST01GM0N.WP2"/>
+				<file name="st02gm0c.wp2" type="data" source="iso/SND/ST02GM0C.WP2"/>
+				<file name="st02gm0g.wp2" type="data" source="iso/SND/ST02GM0G.WP2"/>
+				<file name="st02gm0n.wp2" type="data" source="iso/SND/ST02GM0N.WP2"/>
+				<file name="st03gm0c.wp2" type="data" source="iso/SND/ST03GM0C.WP2"/>
+				<file name="st03gm0g.wp2" type="data" source="iso/SND/ST03GM0G.WP2"/>
+				<file name="st03gm0n.wp2" type="data" source="iso/SND/ST03GM0N.WP2"/>
+				<file name="st04gm0c.wp2" type="data" source="iso/SND/ST04GM0C.WP2"/>
+				<file name="st04gm0g.wp2" type="data" source="iso/SND/ST04GM0G.WP2"/>
+				<file name="st04gm0n.wp2" type="data" source="iso/SND/ST04GM0N.WP2"/>
+				<file name="st05gm0c.wp2" type="data" source="iso/SND/ST05GM0C.WP2"/>
+				<file name="st05gm0g.wp2" type="data" source="iso/SND/ST05GM0G.WP2"/>
+				<file name="st05gm0n.wp2" type="data" source="iso/SND/ST05GM0N.WP2"/>
+				<file name="st06gm0c.wp2" type="data" source="iso/SND/ST06GM0C.WP2"/>
+				<file name="st06gm0g.wp2" type="data" source="iso/SND/ST06GM0G.WP2"/>
+				<file name="st06gm0n.wp2" type="data" source="iso/SND/ST06GM0N.WP2"/>
+				<file name="st07gm0c.wp2" type="data" source="iso/SND/ST07GM0C.WP2"/>
+				<file name="st07gm0g.wp2" type="data" source="iso/SND/ST07GM0G.WP2"/>
+				<file name="st07gm0n.wp2" type="data" source="iso/SND/ST07GM0N.WP2"/>
+				<file name="st08gm0c.wp2" type="data" source="iso/SND/ST08GM0C.WP2"/>
+				<file name="st08gm0g.wp2" type="data" source="iso/SND/ST08GM0G.WP2"/>
+				<file name="st08gm0n.wp2" type="data" source="iso/SND/ST08GM0N.WP2"/>
+				<file name="stbn0.wp2" type="data" source="iso/SND/STBN0.WP2"/>
+				<file name="stbn1.wp2" type="data" source="iso/SND/STBN1.WP2"/>
+			</dir>
+			<dir name="VS" source="iso/VS">
+				<file name="VS01VS0.WP2" type="data" source="iso/VS/VS01VS0.WP2"/>
+				<file name="VS01VS1.WP2" type="data" source="iso/VS/VS01VS1.WP2"/>
+				<file name="VS01VS2.WP2" type="data" source="iso/VS/VS01VS2.WP2"/>
+				<file name="VS02VS0.WP2" type="data" source="iso/VS/VS02VS0.WP2"/>
+				<file name="VS02VS1.WP2" type="data" source="iso/VS/VS02VS1.WP2"/>
+				<file name="VS02VS2.WP2" type="data" source="iso/VS/VS02VS2.WP2"/>
+				<file name="VS03VS0.WP2" type="data" source="iso/VS/VS03VS0.WP2"/>
+				<file name="VS03VS1.WP2" type="data" source="iso/VS/VS03VS1.WP2"/>
+				<file name="VS03VS2.WP2" type="data" source="iso/VS/VS03VS2.WP2"/>
+				<file name="VS04VS0.WP2" type="data" source="iso/VS/VS04VS0.WP2"/>
+				<file name="VS04VS1.WP2" type="data" source="iso/VS/VS04VS1.WP2"/>
+				<file name="VS04VS2.WP2" type="data" source="iso/VS/VS04VS2.WP2"/>
+				<file name="VS05VS0.WP2" type="data" source="iso/VS/VS05VS0.WP2"/>
+				<file name="VS05VS1.WP2" type="data" source="iso/VS/VS05VS1.WP2"/>
+				<file name="VS05VS2.WP2" type="data" source="iso/VS/VS05VS2.WP2"/>
+				<file name="VS06VS0.WP2" type="data" source="iso/VS/VS06VS0.WP2"/>
+				<file name="VS06VS1.WP2" type="data" source="iso/VS/VS06VS1.WP2"/>
+				<file name="VS06VS2.WP2" type="data" source="iso/VS/VS06VS2.WP2"/>
+				<file name="VS07VS0.WP2" type="data" source="iso/VS/VS07VS0.WP2"/>
+				<file name="VS07VS1.WP2" type="data" source="iso/VS/VS07VS1.WP2"/>
+				<file name="VS07VS2.WP2" type="data" source="iso/VS/VS07VS2.WP2"/>
+				<file name="VS08VS0.WP2" type="data" source="iso/VS/VS08VS0.WP2"/>
+				<file name="VS08VS1.WP2" type="data" source="iso/VS/VS08VS1.WP2"/>
+				<file name="VS08VS2.WP2" type="data" source="iso/VS/VS08VS2.WP2"/>
+			</dir>
+			<dir name="xtr" source="iso/XTR">
+				<file name="ST00SR0.XTR" type="data" source="iso/XTR/ST00SR0.XTR"/>
+				<file name="ST01SR0.XTR" type="data" source="iso/XTR/ST01SR0.XTR"/>
+				<file name="ST01SR1.XTR" type="data" source="iso/XTR/ST01SR1.XTR"/>
+				<file name="ST02SR0.XTR" type="data" source="iso/XTR/ST02SR0.XTR"/>
+				<file name="ST02SR1.XTR" type="data" source="iso/XTR/ST02SR1.XTR"/>
+				<file name="ST03SR0.XTR" type="data" source="iso/XTR/ST03SR0.XTR"/>
+				<file name="ST03SR1.XTR" type="data" source="iso/XTR/ST03SR1.XTR"/>
+				<file name="ST04SR0.XTR" type="data" source="iso/XTR/ST04SR0.XTR"/>
+				<file name="ST04SR1.XTR" type="data" source="iso/XTR/ST04SR1.XTR"/>
+				<file name="ST05SR0.XTR" type="data" source="iso/XTR/ST05SR0.XTR"/>
+				<file name="ST05SR1.XTR" type="data" source="iso/XTR/ST05SR1.XTR"/>
+				<file name="ST06SR0.XTR" type="data" source="iso/XTR/ST06SR0.XTR"/>
+				<file name="ST06SR1.XTR" type="data" source="iso/XTR/ST06SR1.XTR"/>
+				<file name="ST07SR0.XTR" type="data" source="iso/XTR/ST07SR0.XTR"/>
+				<file name="ST07SR1.XTR" type="data" source="iso/XTR/ST07SR1.XTR"/>
+				<file name="ST08SR0.XTR" type="data" source="iso/XTR/ST08SR0.XTR"/>
+				<file name="ST09SR0.XTR" type="data" source="iso/XTR/ST09SR0.XTR"/>
+			</dir>
+			-->
+		</directory_tree>
+	</track>
+</iso_project>

@@ -1,0 +1,7 @@
+all: iso
+
+iso: base.iso
+	@ mkdir -p iso/
+	@ 7z x -ssc -tiso -y -oiso base.iso
+	@ rm iso/SCPS_150.17
+	@ rm iso/IRX/*

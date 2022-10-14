@@ -20,7 +20,7 @@ void WorkClear(void *ptr, size_t size)
 	int i;
 	char *p = (char*)ptr;
 	for (i = ((int)size - 1); i >= size; i--)
-		*p = 0;
+		*p++ = 0;
 }
 
 void SetBackColor(int r, int g, int b)
@@ -125,6 +125,7 @@ void usrFree(void *adr)
 			usr_malloc_str[i].adr = NULL;
 			usr_malloc_str[i].size = 0;
 			free(adr);
+			return;
 		}
 	}
 

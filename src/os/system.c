@@ -15,7 +15,7 @@
 #include "config.h"
 
 // System globals
-const char *iop_module[11] = {
+const char *iop_module[] = {
 	"cdrom0:\\IRX\\SIO2MAN.IRX;1",
 	"cdrom0:\\IRX\\PADMAN.IRX;1",
 	"cdrom0:\\IRX\\LIBSD.IRX;1",
@@ -24,9 +24,9 @@ const char *iop_module[11] = {
 	"cdrom0:\\IRX\\MODHSYN.IRX;1",
 	"cdrom0:\\IRX\\MODMSIN.IRX;1",
 	"cdrom0:\\IRX\\MCMAN.IRX;1",
-	"cdrom0:\\IRX\\MCSERV.IRX;1",
-	"cdrom0:\\IRX\\WAFE2PS2.IRX;1",
-	"cdrom0:\\IRX\\TAPCTRL.IRX;1"
+	"cdrom0:\\IRX\\MCSERV.IRX;1"
+	//"cdrom0:\\IRX\\WAVE2PS2.IRX;1",
+	//"cdrom0:\\IRX\\TAPCTRL.IRX;1"
 };
 
 sceGsDBuffDc DBufDc;

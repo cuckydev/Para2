@@ -1,0 +1,16 @@
+all: \
+	iso/IRX/ioprp300.img \
+	iso/IRX/libsd.irx \
+	iso/IRX/mcman.irx \
+	iso/IRX/mcserv.irx \
+	iso/IRX/modhsyn.irx \
+	iso/IRX/modmidi.irx \
+	iso/IRX/modmsin.irx \
+	iso/IRX/padman.irx \
+	iso/IRX/sdrdrv.irx \
+	iso/IRX/sio2man.irx
+
+iso/IRX/%.irx: /usr/local/sce/iop/modules/%.irx
+	@ cp $< $@
+iso/IRX/%.img: /usr/local/sce/iop/modules/%.img
+	@ cp $< $@
