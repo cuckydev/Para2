@@ -35,3 +35,6 @@ all: $(IRX)
 
 $(IRX): $(OBJS)
 	$(LINK.o) $(OBJS) -o $(IRX) $(LIBS)
+
+clean:
+	$(RM) $(OBJS) $(IRX)

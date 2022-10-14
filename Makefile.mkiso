@@ -3,3 +3,6 @@ all: \
 
 para.iso: iso para.elf
 	@ mkpsxiso -y para.xml
+
+clean:
+	$(RM) para.iso

@@ -6,3 +6,6 @@ $(IRX):
 	cd $@ && $(MAKE)
 
 .PHONY: all $(IRX)
+
+clean: $(IRX)
+	cd $< && $(MAKE) clean

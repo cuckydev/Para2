@@ -63,4 +63,4 @@ obj/crt0.o: $(LIBDIR)/crt0.s
 include $(wildcard $(DEPS))
 
 clean:
-	rm -rf obj/
+	$(RM) -rf $(TARGET).elf $(TARGET).map obj
