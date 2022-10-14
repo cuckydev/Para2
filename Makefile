@@ -1,7 +1,7 @@
 all:
 	$(MAKE) -f Makefile.mkext
-	$(MAKE) -f Makefile.mkirx
 	$(MAKE) -f Makefile.mkelf
+	$(MAKE) -f Makefile.mkirx
 	$(MAKE) -f Makefile.mkiso
 
 clean:

@@ -4,7 +4,7 @@
 // Syori functions
 void SyoriLineInit(int unk);
 void SyoriLineReset(void);
-int SyoriLineCnt(void);
+int SyoriLineCnt(int i);
 void SyoriLineDisp(void);
 
 #endif

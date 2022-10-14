@@ -1,8 +1,5 @@
 all: \
-	iso/SCPS_150.17 \
 	para.iso
 
-iso/SCPS_150.17: para.elf
-	@ cp $< $@
 para.iso: iso para.elf
 	@ mkpsxiso -y para.xml

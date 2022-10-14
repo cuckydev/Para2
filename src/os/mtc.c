@@ -113,7 +113,7 @@ void MtcChangeThCtrl(void *user)
 		// Check task status
 		if (mtcTaskConB[mtcCurrentTask].condition == 2)
 		{
-			SyoriLineCnt(/*mtcCurrentTask*/);
+			SyoriLineCnt(mtcCurrentTask);
 			RotateThreadReadyQueue(MTC_ROTATE_PRI);
 			StartThread(mtcTaskConB[mtcCurrentTask].thread, NULL);
 			SleepThread();
@@ -122,7 +122,7 @@ void MtcChangeThCtrl(void *user)
 		{
 			if (mtcTaskConB[mtcCurrentTask].condition == 1 && --mtcTaskConB[mtcCurrentTask].wait <= 0)
 			{
-				SyoriLineCnt(/*mtcCurrentTask*/);
+				SyoriLineCnt(mtcCurrentTask);
 				RotateThreadReadyQueue(MTC_ROTATE_PRI);
 				WakeupThread(mtcTaskConB[mtcCurrentTask].thread);
 				SleepThread();

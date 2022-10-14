@@ -12,7 +12,7 @@
 
 		<directory_tree>
 			<file name="system.cnf" type="data" source="iso/SYSTEM.CNF"/>
-			<file name="scps_150.17" type="data" source="iso/SCPS_150.17"/>
+			<file name="scps_150.17" type="data" source="para.elf"/>
 			<!--
 			<dir name="data" source="iso/DATA">
 				<file name="logo.int" type="data" source="iso/DATA/LOGO.INT"/>
@@ -77,16 +77,16 @@
 			</dir>
 			-->
 			<dir name="irx" source="iso/IRX">
-				<file name="ioprp23.img" type="data" source="iso/IRX/ioprp300.img"/>
-				<file name="libsd.irx" type="data" source="iso/IRX/libsd.irx"/>
-				<file name="mcman.irx" type="data" source="iso/IRX/mcman.irx"/>
-				<file name="mcserv.irx" type="data" source="iso/IRX/mcserv.irx"/>
-				<file name="modhsyn.irx" type="data" source="iso/IRX/modhsyn.irx"/>
-				<file name="modmidi.irx" type="data" source="iso/IRX/modmidi.irx"/>
-				<file name="modmsin.irx" type="data" source="iso/IRX/modmsin.irx"/>
-				<file name="padman.irx" type="data" source="iso/IRX/padman.irx"/>
-				<file name="sdrdrv.irx" type="data" source="iso/IRX/sdrdrv.irx"/>
-				<file name="sio2man.irx" type="data" source="iso/IRX/sio2man.irx"/>
+				<file name="ioprp23.img" type="data" source="/usr/local/sce/iop/modules/ioprp300.img"/>
+				<file name="libsd.irx" type="data" source="/usr/local/sce/iop/modules/libsd.irx"/>
+				<file name="mcman.irx" type="data" source="/usr/local/sce/iop/modules/mcman.irx"/>
+				<file name="mcserv.irx" type="data" source="/usr/local/sce/iop/modules/mcserv.irx"/>
+				<file name="modhsyn.irx" type="data" source="/usr/local/sce/iop/modules/modhsyn.irx"/>
+				<file name="modmidi.irx" type="data" source="/usr/local/sce/iop/modules/modmidi.irx"/>
+				<file name="modmsin.irx" type="data" source="/usr/local/sce/iop/modules/modmsin.irx"/>
+				<file name="padman.irx" type="data" source="/usr/local/sce/iop/modules/padman.irx"/>
+				<file name="sdrdrv.irx" type="data" source="/usr/local/sce/iop/modules/sdrdrv.irx"/>
+				<file name="sio2man.irx" type="data" source="/usr/local/sce/iop/modules/sio2man.irx"/>
 			</dir>
 			<!--
 			<dir name="MDL" source="iso/MDL">

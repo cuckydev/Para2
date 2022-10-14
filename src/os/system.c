@@ -130,10 +130,10 @@ static void firstClrFrameBuffer(void)
 	// Setup packet
 	struct
 	{
-		long p0 : 16; // TODO: What is this?
-		long p1 : 8;
-		long p2 : 8;
-		long p3 : 32;
+		unsigned long p0 : 16; // TODO: What is this?
+		unsigned long p1 : 8;
+		unsigned long p2 : 8;
+		unsigned long p3 : 32;
 		sceGifTag giftag;
 		sceGsDrawEnv1 draw;
 		sceGsClear clear;
@@ -221,7 +221,9 @@ static void initSystem(void)
 	do {} while (sceGsSyncV(0) == 0);
 
 	// Initialize user malloc
+	usrMallcInit();
 
+	scePrintf("Hello Para2!\n");
 }
 
 static void exitSystem(void)

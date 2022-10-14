@@ -32,10 +32,6 @@ DVPASMFLAGS =
 LDFLAGS = -Wl,-Map,$(TARGET).map -mno-crt0 -L$(TOP)/lib
 TMPFLAGS =
 
-# Dependency flags
-CFLAGS += -MMD -MP
-CXXFLAGS += -MMD -MP
-
 # Sources
 SRCS = \
 	src/dbug/syori.c \
@@ -58,11 +54,11 @@ $(TARGET).elf: $(OBJS) $(LIBS)
 
 obj/%.c.o: %.c
 	@ mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(TMPFLAGS) -MF $@.d $< -o $@ -c
+	$(CC) $(TMPFLAGS) $(CFLAGS) -MMD -MP -MF $@.d $< -o $@ -c
 
 obj/crt0.o: $(LIBDIR)/crt0.s
 	@ mkdir -p $(@D)
-	$(AS) $(ASFLAGS) $(TMPFLAGS) $< -o $@ -c
+	$(AS) $(TMPFLAGS) $(ASFLAGS) $< -o $@ -c
 
 include $(wildcard $(DEPS))
 

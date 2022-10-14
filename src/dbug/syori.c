@@ -3,6 +3,7 @@
 // Syori functions
 void SyoriLineInit(int unk)
 {
+	(void)unk;
 	return;
 }
 
@@ -11,8 +12,9 @@ void SyoriLineReset(void)
 	return;
 }
 
-int SyoriLineCnt(void)
+int SyoriLineCnt(int i)
 {
+	(void)i;
 	return 0;
 }
 
