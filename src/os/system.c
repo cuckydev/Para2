@@ -24,8 +24,8 @@ const char *iop_module[] = {
 	"cdrom0:\\IRX\\MODHSYN.IRX;1",
 	"cdrom0:\\IRX\\MODMSIN.IRX;1",
 	"cdrom0:\\IRX\\MCMAN.IRX;1",
-	"cdrom0:\\IRX\\MCSERV.IRX;1"
-	//"cdrom0:\\IRX\\WAVE2PS2.IRX;1",
+	"cdrom0:\\IRX\\MCSERV.IRX;1",
+	"cdrom0:\\IRX\\WAVE2PS2.IRX;1",
 	//"cdrom0:\\IRX\\TAPCTRL.IRX;1"
 };
 

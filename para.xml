@@ -87,6 +87,7 @@
 				<file name="padman.irx" type="data" source="/usr/local/sce/iop/modules/padman.irx"/>
 				<file name="sdrdrv.irx" type="data" source="/usr/local/sce/iop/modules/sdrdrv.irx"/>
 				<file name="sio2man.irx" type="data" source="/usr/local/sce/iop/modules/sio2man.irx"/>
+				<file name="wave2ps2.irx" type="data" source="iop/wave2ps2/wave2ps2.irx"/>
 			</dir>
 			<!--
 			<dir name="MDL" source="iso/MDL">

@@ -20,7 +20,7 @@ ILB = src/$(MODULE).ilb
 TBL = $(MODULE).tbl
 ENT = src/$(MODULE).o
 
-LIBS = -ilb=iop.ilb
+LIBS = -ilb=libsd.ilb -ilb=iop.ilb
 
 CFLAGS = -I$(TOP)/common/include -Iinclude -Isrc -Wall -G0 -g
 ASFLAGS = -I$(TOP)/common/include -Iinclude -G0
@@ -31,7 +31,7 @@ OBJS = \
 	src/bgm_com.o
 
 # Compile rules
-all: $(IRX) $(ILB)
+all: $(IRX)
 
 $(IRX): $(OBJS)
 	$(LINK.o) $(OBJS) -o $(IRX) $(LIBS)
