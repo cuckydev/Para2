@@ -33,13 +33,46 @@ void SetBackColor(int r, int g, int b)
 	DBufDc.clear1.rgbaq = DBufDc.clear0.rgbaq;
 }
 
+char *ByteStringSub(char *s, int v)
+{
+	const char *format;
+	if (v < 1000)
+	{
+		format = "%u";
+	}
+	else
+	{
+		char *ns = ByteStringSub(s, v / 1000);
+		format = "%03u";
+		ns[0] = ',';
+		s = ns + 1;
+	}
+	return s + sprintf(s, format, v % 1000);
+}
+
+char *ByteString(int v)
+{
+	static char s[256];
+	char *se = ByteStringSub(s, v);
+	
+	static const char *sbyte = "(byte)";
+	memcpy(se, sbyte, 6);
+}
+
 void ReportHeapUsage(void)
 {
 	// Get malloc info
-	struct mallinfo malloc_info;
-	mallinfo(&malloc_info);
+	struct mallinfo malloc_info = mallinfo();
 
 	// Print malloc info
+	printf("_________________________________________\n");
+	printf("total space allocated from system = %s\n", ByteString(malloc_info.arena));
+	printf("total space in mmapped regions = %s\n", ByteString(malloc_info.hblkhd));
+	printf("total allocated space = %s\n", ByteString(malloc_info.uordblks));
+	printf("total non-inuse space = %s\n", ByteString(malloc_info.fordblks));
+	printf("number of non-inuse chunks = %d\n", malloc_info.ordblks);
+	printf("number of mmapped regions = %d\n", malloc_info.hblks);
+	printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
 }
 
 void usrMallcInit(void)
