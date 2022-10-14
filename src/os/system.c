@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 
+#include "main/main.h"
 #include "os/mtc.h"
 #include "os/syssub.h"
 #include "dbug/syori.h"
@@ -32,19 +33,30 @@ const char *iop_module[] = {
 sceGsDBuffDc DBufDc;
 int outbuf_idx = 0, oddeven_idx = 0;
 
+void (*OsFuncAddr)(void);
+
 sceGsDrawEnv1 *drawEnvP[5];
 static sceGsDrawEnv1 drawEnvSp, drawEnvZbuff, drawEnvEnd;
 
 static u_long128 GifPkCommon[0x2000];
 
-// Forward declares
-static void initSystem(void);
-static void exitSystem(void);
+char pad[0x48];
 
 // System control main thread
+static void osFunc(void);
+
 static void systemCtrlMain(void *user)
 {
-	return;
+	// Start main thread
+	MtcExec(mainStart, 1);
+	SetOsFuncAddr(osFunc);
+
+	// System loop
+	while (1)
+	{
+		OsFuncAddr();
+		MtcWait(1);
+	}
 }
 
 // Malloc
@@ -70,6 +82,9 @@ static void mallocInit(void)
 }
 
 // Entry point
+static void initSystem(void);
+static void exitSystem(void);
+
 int main(int argc, char *argv[])
 {
 	// Initialize malloc
@@ -228,4 +243,63 @@ static void initSystem(void)
 
 static void exitSystem(void)
 {
+	// Deinitialize systems
+	sceGsSyncPath(0, 0);
+	GPadExit();
+	sceCdInit(SCECdEXIT);
+	sceSifExitCmd();
+}
+
+void SetOsFuncAddr(void (*func)(void))
+{
+	// Set function address global
+	OsFuncAddr = func;
+}
+
+static void osFunc(void)
+{
+	// Cycle RNG
+	rand();
+
+	// Render scene
+	SyoriLineCnt(16);
+	
+	CmnGifFlush();
+	sceGsSyncPath(0, 0);
+
+	SyoriLineCnt(16);
+	SyoriLineDisp(0x84, 2);
+
+	oddeven_idx = sceGsSyncV(0);
+	*T0_MODE = 0;
+
+	SyoriLineReset();
+	SyoriLineCnt(0);
+
+	// Read pad
+
+	// Flip buffers
+	outbuf_idx ^= 1;
+	CmnGifClear();
+
+	if (outbuf_idx == 0)
+	{
+		sceGsSetHalfOffset(&DBufDc.draw01, 0x800, 0x800, oddeven_idx ^ 1);
+		sceGsSetHalfOffset2(&DBufDc.draw02, 0x800, 0x800, oddeven_idx ^ 1);
+	}
+	else
+	{
+		sceGsSetHalfOffset(&DBufDc.draw11, 0x800, 0x800, oddeven_idx ^ 1);
+		sceGsSetHalfOffset2(&DBufDc.draw12, 0x800, 0x800, oddeven_idx ^ 1);
+	}
+	FlushCache(0);
+
+	// Wait for GIF transfer
+	do {} while ((*D2_CHCR & 0x100) != 0);
+	if (sceGsSyncPath(0, 0))
+		printf("SyncPath timeout \n");
+	
+	// Swap DC
+	if (sceGsSwapDBuffDc(&DBufDc, outbuf_idx) != 0)
+		printf("swap dma error\n");
 }

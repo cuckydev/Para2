@@ -25,6 +25,8 @@ LIBS = -ilb=libsd.ilb -ilb=iop.ilb
 CFLAGS = -I$(TOP)/common/include -Iinclude -Isrc -Wall -G0 -g
 ASFLAGS = -I$(TOP)/common/include -Iinclude -G0
 
+COMPILE.s = $(CC) $(ASFLAGS) $(CFLAGS)
+
 # Sources
 OBJS = \
 	src/bgm_entr.o \

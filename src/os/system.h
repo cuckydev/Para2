@@ -6,4 +6,6 @@
 // System globals
 extern sceGsDBuffDc DBufDc;
 
+extern char pad[0x48];
+
 #endif

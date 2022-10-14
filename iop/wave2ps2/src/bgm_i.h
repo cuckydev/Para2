@@ -10,9 +10,6 @@
 #include <sys/types.h>
 #include <stdio.h>
 
-// Module ID number
-#define sce_BGM_DEV 0x8800
-
 // Bgm functions
 int sce_bgm_loop(void);
 

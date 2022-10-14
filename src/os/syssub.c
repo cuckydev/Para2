@@ -1,6 +1,7 @@
 #include "os/syssub.h"
 
 #include <malloc.h>
+#include <libpad.h>
 
 #include "os/system.h"
 
@@ -14,6 +15,11 @@ struct MallocReport
 };
 static struct MallocReport usr_malloc_str[256];
 
+// Pad state
+char sysPad[0x40];
+
+static char pad_dma_buf[2][0x100];
+
 // Syssub functions
 void WorkClear(void *ptr, size_t size)
 {
@@ -21,6 +27,31 @@ void WorkClear(void *ptr, size_t size)
 	char *p = (char*)ptr;
 	for (i = ((int)size - 1); i >= size; i--)
 		*p++ = 0;
+}
+
+void GPadInit(void)
+{
+	int i;
+
+	// Clear pad states
+	WorkClear(pad, sizeof(pad));
+	WorkClear(sysPad, sizeof(sysPad));
+
+	// Initialize pads
+	scePadInit(0);
+	for (i = 0; i < 2; i++)
+		if (scePadPortOpen(i, 0, pad_dma_buf[i]) == 0)
+			printf("ERROR: scePadPortOpen[%d]\n", i);
+}
+
+void GPadExit(void)
+{
+	int i;
+
+	// Close pads
+	for (i = 0; i < 2; i++)
+		scePadPortClose(i, 0);
+	scePadEnd();
 }
 
 void SetBackColor(int r, int g, int b)

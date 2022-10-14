@@ -23,9 +23,10 @@ LIBS = \
 	$(LIBDIR)/libdev.a \
 	$(LIBDIR)/libdma.a \
 	$(LIBDIR)/libcdvd.a \
-	$(LIBDIR)/libpkt.a
+	$(LIBDIR)/libpkt.a \
+	$(LIBDIR)/libpad.a
 
-CFLAGS = -O2 -Wa,-al -fno-common -G0 -Isrc -I$(TOP)/../common/include -I$(TOP)/include
+CFLAGS = -O2 -Wa,-al -fno-common -G0 -Isrc -Iiop/wave2ps2/include -I$(TOP)/../common/include -I$(TOP)/include
 CXXFLAGS = $(CFLAGS) -fno-exceptions
 ASFLAGS = -c -xassembler-with-cpp -Wa,-al
 DVPASMFLAGS =

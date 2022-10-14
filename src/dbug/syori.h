@@ -5,6 +5,6 @@
 void SyoriLineInit(int unk);
 void SyoriLineReset(void);
 int SyoriLineCnt(int i);
-void SyoriLineDisp(void);
+void SyoriLineDisp(int unk0, int unk1);
 
 #endif

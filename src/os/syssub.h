@@ -6,6 +6,9 @@
 // Syssub functions
 void WorkClear(void *ptr, size_t size);
 
+void GPadInit(void);
+void GPadExit(void);
+
 void SetBackColor(int r, int g, int b);
 
 int randMakeMax(int max);
