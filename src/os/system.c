@@ -26,8 +26,7 @@ const char *iop_module[11] = {
 	"cdrom0:\\IRX\\MCMAN.IRX;1",
 	"cdrom0:\\IRX\\MCSERV.IRX;1",
 	"cdrom0:\\IRX\\WAFE2PS2.IRX;1",
-	"cdrom0:\\IRX\\TAPCTRL.IRX;1",
-	"cdrom0:\\IRX\\SIO2MAN.IRX;1",
+	"cdrom0:\\IRX\\TAPCTRL.IRX;1"
 };
 
 sceGsDBuffDc DBufDc;
@@ -142,7 +141,7 @@ static void firstClrFrameBuffer(void)
 
 	packet.p0 = 15;
 	packet.p2 = 0;
-	packet.p3 = (long)&packet.giftag;
+	packet.p3 = (int)&packet.giftag;
 
 	// SCE_GIF_CLEAR_TAG(&packet.giftag);
 	packet.giftag.NLOOP = 14;

@@ -33,6 +33,11 @@ void SetBackColor(int r, int g, int b)
 	DBufDc.clear1.rgbaq = DBufDc.clear0.rgbaq;
 }
 
+int randMakeMax(int max)
+{
+	return ((rand() & 0x7FFF) * max) >> 15;
+}
+
 char *ByteStringSub(char *s, int v)
 {
 	const char *format;

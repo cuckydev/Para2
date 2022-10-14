@@ -5,6 +5,8 @@
 #include "macro.h"
 
 // Mtc constants
+#define MTC_ROTATE_PRI 0x10
+
 #define MTC_STACK_CHECK 0x572a8b4c
 
 // Mtc stacks
@@ -32,7 +34,7 @@ struct MtcTask
 {
 	short thread;
 	int condition;
-	unsigned char unk_exec;
+	signed char wait;
 	int unk12;
 	struct ThreadParam param;
 };
@@ -98,7 +100,35 @@ static short th_id_Ctrl;
 
 void MtcChangeThCtrl(void *user)
 {
-	return;
+	while (1)
+	{
+		// Increment current task
+		if (++mtcCurrentTask >= MACRO_COUNTOF(mtcTaskConB))
+		{
+			mtcCurrentTask = 0;
+			if (MtcResetCheck())
+				SignalSema(mtcSemaEnd);
+		}
+
+		// Check task status
+		if (mtcTaskConB[mtcCurrentTask].condition == 2)
+		{
+			SyoriLineCnt(/*mtcCurrentTask*/);
+			RotateThreadReadyQueue(MTC_ROTATE_PRI);
+			StartThread(mtcTaskConB[mtcCurrentTask].thread, NULL);
+			SleepThread();
+		}
+		else
+		{
+			if (mtcTaskConB[mtcCurrentTask].condition == 1 && --mtcTaskConB[mtcCurrentTask].wait <= 0)
+			{
+				SyoriLineCnt(/*mtcCurrentTask*/);
+				RotateThreadReadyQueue(MTC_ROTATE_PRI);
+				WakeupThread(mtcTaskConB[mtcCurrentTask].thread);
+				SleepThread();
+			}
+		}
+	}
 }
 
 // Mtc functions
@@ -156,7 +186,7 @@ void MtcStart(void (*entry)(void*))
 
 	// Start thread
 	mtcCurrentTask = -1;
-	StartThread(th_id_Ctrl, 0);
+	StartThread(th_id_Ctrl, NULL);
 	WaitSema(mtcSemaEnd);
 }
 
@@ -178,19 +208,19 @@ void MtcExec(void (*entry)(void*), int i)
 
 	mtcTaskConB[i].condition = 2;
 	mtcTaskConB[i].thread = thread;
-	mtcTaskConB[i].unk_exec = 0;
+	mtcTaskConB[i].wait = 0;
 
 	*((int*)&mtcStack[i]) = MTC_STACK_CHECK; // Set stack cookie
 }
 
-void MtcWait(unsigned char unk_exec)
+void MtcWait(unsigned char wait)
 {
 	// Check stack
 	FlushCache(0);
 	mtcStackErrorCheck(mtcCurrentTask);
 
 	// Set thread state
-	mtcTaskConB[mtcCurrentTask].unk_exec = unk_exec;
+	mtcTaskConB[mtcCurrentTask].wait = wait;
 	mtcTaskConB[mtcCurrentTask].condition = 0;
 
 	// Wake up control thread and put this thread to sleep
