@@ -40,7 +40,7 @@ static sceGsDrawEnv1 drawEnvSp, drawEnvZbuff, drawEnvEnd;
 
 static u_long128 GifPkCommon[0x2000];
 
-char pad[0x48];
+struct Pad pad[2];
 
 // System control main thread
 static void osFunc(void);
@@ -277,6 +277,8 @@ static void osFunc(void)
 	SyoriLineCnt(0);
 
 	// Read pad
+	GPadSysRead();
+	GPadRead(pad);
 
 	// Flip buffers
 	outbuf_idx ^= 1;

@@ -16,6 +16,15 @@ struct MallocReport
 static struct MallocReport usr_malloc_str[256];
 
 // Pad state
+struct SysPadData
+{
+	unsigned char status;
+	unsigned char tag;
+	unsigned char held[2];
+	unsigned char a[4];
+	unsigned char p[12];
+};
+
 struct SysPad
 {
 	unsigned char data[32];
@@ -23,7 +32,7 @@ struct SysPad
 	unsigned int status;
 	unsigned char act_align[6];
 	short unk6;
-	char unk7[6];
+	char act[6];
 	short unk8;
 	unsigned int unk9;
 	unsigned int unk10;
@@ -72,11 +81,12 @@ void GPadSysRead(void)
 	int i;
 
 	// Read pads
-	for (i = 0; i < 2; i++)
+	struct SysPad *sys_pad = sysPad;
+	for (i = 0; i < 2; i++, sys_pad)
 	{
 		// Get pad state
 		int state = scePadGetState(i, 0);
-		WorkClear(sysPad[i].data, sizeof(sysPad[i].data));
+		WorkClear(sysPad[i].data, sizeof(sys_pad->data));
 		
 		switch (state)
 		{
@@ -86,7 +96,7 @@ void GPadSysRead(void)
 				break;
 			case scePadStateFindCTP1:
 			case scePadStateStable:
-				switch (sysPad[i].status)
+				switch (sys_pad->status)
 				{
 					case 0:
 					{
@@ -104,14 +114,14 @@ void GPadSysRead(void)
 						else
 						{
 							// Set pad status
-							sysPad[i].id = id;
+							sys_pad->id = id;
 							switch (id)
 							{
 								case 4:
-									sysPad[i].status = 40;
+									sys_pad->status = 40;
 									break;
 								case 7:
-									sysPad[i].status = 70;
+									sys_pad->status = 70;
 									break;
 								default:
 									WorkClear(&sysPad[i], sizeof(sysPad[i]));
@@ -126,26 +136,26 @@ void GPadSysRead(void)
 						// Check if it's an analog controller
 						if (scePadInfoMode(i, 0, InfoModeIdTable, -1) == 0)
 						{
-							sysPad[i].status = 99;
+							sys_pad->status = 99;
 							break;
 						}
-						sysPad[i].status++;
+						sys_pad->status++;
 					}
 				// Fallthrough
 					case 41:
 					{
 						// Switch to analog mode
 						if (scePadSetMainMode(i, 0, 1, 0) == 1)
-							sysPad[i].status++;
+							sys_pad->status++;
 						break;
 					}
 					case 42:
 					{
 						// Check status
 						if (scePadGetReqState(i, 0) == scePadReqStateFaild)
-							sysPad[i].status--;
+							sys_pad->status--;
 						if (scePadGetReqState(i, 0) == scePadReqStateComplete)
-							sysPad[i].status = 0;
+							sys_pad->status = 0;
 						break;
 					}
 
@@ -154,11 +164,11 @@ void GPadSysRead(void)
 						// Check for Dualshock
 						if (scePadInfoMode(i, 0, InfoModeIdTable, -1) == 0)
 						{
-							sysPad[i].status = 99;
+							sys_pad->status = 99;
 							break;
 						}
 						if (scePadSetMainMode(i, 0, 1, 3) == 1)
-							sysPad[i].status++;
+							sys_pad->status++;
 						break;
 					}
 					case 71:
@@ -166,25 +176,25 @@ void GPadSysRead(void)
 					{
 						// Check status
 						if (scePadGetReqState(i, 0) == scePadReqStateFaild)
-							sysPad[i].status--;
+							sys_pad->status--;
 						if (scePadGetReqState(i, 0) == scePadReqStateComplete)
-							sysPad[i].status = 80;
+							sys_pad->status = 80;
 						break;
 					}
 					case 72:
 					{
 						if (scePadInfoPressMode(i, 0) == 1)
 						{
-							sysPad[i].status = 80;
+							sys_pad->status = 80;
 							break;
 						}
-						sysPad[i].status = 76;
+						sys_pad->status = 76;
 						break;
 					}
 					case 76:
 					{
 						if (scePadEnterPressMode(i, 0) == 1)
-							sysPad[i].status++;
+							sys_pad->status++;
 						break;
 					}
 
@@ -192,28 +202,28 @@ void GPadSysRead(void)
 					{
 						// Get actuator information
 						if (scePadInfoAct(i, 0, -1, 0) == 0)
-							sysPad[i].status = 99;
+							sys_pad->status = 99;
 						
 						// Set actuator information
-						sysPad[i].act_align[1] = 1;
-						sysPad[i].act_align[5] = 0xFF;
-						sysPad[i].act_align[0] = 0;
-						sysPad[i].act_align[2] = 0xFF;
-						sysPad[i].act_align[3] = 0xFF;
-						sysPad[i].act_align[4] = 0xFF;
-						if (scePadSetActAlign(i, 0, sysPad[i].act_align) == 0)
+						sys_pad->act_align[1] = 1;
+						sys_pad->act_align[5] = 0xFF;
+						sys_pad->act_align[0] = 0;
+						sys_pad->act_align[2] = 0xFF;
+						sys_pad->act_align[3] = 0xFF;
+						sys_pad->act_align[4] = 0xFF;
+						if (scePadSetActAlign(i, 0, sys_pad->act_align) == 0)
 							break;
 						
-						sysPad[i].status++;
+						sys_pad->status++;
 						break;
 					}
 					case 81:
 					{
 						// Check status
 						if (scePadGetReqState(i, 0) == scePadReqStateFaild)
-							sysPad[i].status--;
+							sys_pad->status--;
 						if (scePadGetReqState(i, 0) == scePadReqStateComplete)
-							sysPad[i].status = 99;
+							sys_pad->status = 99;
 						break;
 					}
 				}
@@ -224,9 +234,208 @@ void GPadSysRead(void)
 	}
 }
 
-void padMakeData(Pad *pad, ushort x)
+void padMakeData(struct Pad *pad, unsigned short held)
 {
+	unsigned short last_held = pad->held;
+	pad->held = held;
+	unsigned short change = last_held ^ held;
+	pad->change = change;
+	pad->release = change & ~held;
+	pad->press = held & change;
+}
+
+void pad0Clear(struct Pad *pad)
+{
+	unsigned short last_held = pad->held;
+	pad->held = 0;
+	pad->change = last_held;
+	pad->release = last_held;
+	pad->press = 0;
+}
+
+void padOneOffBitCLear(struct Pad *pad)
+{
+	pad->release = 0;
+	pad->press = 0;
+}
+
+void padNormalRead(struct Pad *pad, struct SysPadData *data)
+{
+	padMakeData(pad, ~(((unsigned short)data->held[0] << 8) | ((unsigned short)data->held[1] << 0)));
+}
+
+void padAnaRead(struct Pad *pad, struct SysPadData *data)
+{
+	int i;
+	for (i = 0; i < 4; i++)
+		pad->a[i] = data->a[i];
+}
+
+void padAnaRead0Clear(struct Pad *pad)
+{
+	int i;
+	for (i = 0; i < 4; i++)
+		pad->a[i] = 0x80;
+}
+
+void padPrsRead(struct Pad *pad, struct SysPadData *data)
+{
+	int i;
+	for (i = 0; i < 12; i++)
+		pad->p[i] = data->p[i];
+}
+
+void padPrsRead0Clear(struct Pad *pad)
+{
+	int i;
+	for (i = 0; i < 4; i++)
+		pad->a[i] = 0;
+}
+
+void padPrsTreate(struct Pad *pad)
+{
+	// Define pressure buttons
+	const unsigned short prs_buttons[12] = {
+		PAD_RIGHT,
+		PAD_LEFT,
+		PAD_UP,
+		PAD_DOWN,
+		PAD_TRIANGLE,
+		PAD_CIRCLE,
+		PAD_CROSS,
+		PAD_SQUARE,
+		PAD_L1,
+		PAD_R1,
+		PAD_L2,
+		PAD_R2
+	};
+
+	// Set pressure buttons
+	int i;
+
+	unsigned short held = pad->held;
+	for (i = 0; i < 12; i++)
+	{
+		if (pad->held & prs_buttons[i])
+		{
+			if (pad->p[i])
+				continue;
+			pad->p[i] = 1;
+		}
+		else
+		{
+			if (!pad->p[i])
+				continue;
+			pad->p[i] = 0;
+		}
+		held = pad->held;
+	}
+}
+
+void padActSet(struct Pad *pad, struct SysPad *sys_pad)
+{
+	if (pad == NULL)
+	{
+		sys_pad->act[1] = 0;
+		sys_pad->act[0] = 0;
+		return;
+	}
+
+	sys_pad->act[0] = pad->act[0];
+	sys_pad->act[1] = pad->act[1];
+}
+
+void padActClear(struct Pad *pad)
+{
+	pad->act[1] = 0;
+	pad->act[0] = 0;
+}
+
+void padAnaMixPad(struct Pad *pad)
+{
+	unsigned char a;
+
+	unsigned short last_aheld = pad->aheld;
+	pad->aheld = 0;
+
+	// X axis mix
+	a = pad->a[PAD_LX];
+	if (a < 0x40)
+		pad->aheld |= PAD_LEFT;
+	if (a > 0xC0)
+		pad->aheld |= PAD_RIGHT;
+
+	// Y axis mix
+	a = pad->a[PAD_LY];
+	if (a < 0x40)
+		pad->aheld |= PAD_UP;
+	if (a > 0xC0)
+		pad->aheld |= PAD_DOWN;
 	
+	// Set press
+	pad->apress = pad->aheld & (last_aheld ^ pad->aheld);
+}
+
+void GPadRead(struct Pad *pad)
+{
+	int i;
+	for (i = 0; i < 2; i++, pad++)
+	{
+		struct SysPad *sys_pad = &sysPad[i];
+
+		// Get pad status and tag
+		unsigned char tag;
+		if (sys_pad->data[0] == 0)
+		{
+			tag = sys_pad->data[1];
+		}
+		else
+		{
+			pad0Clear(pad);
+			tag = sys_pad->data[1];
+		}
+
+		// Read pad
+		if ((tag & 0xF0) == 0x40)
+		{
+			// Standard controller
+			padNormalRead(pad, (struct SysPadData*)sys_pad);
+			padAnaRead0Clear(pad);
+			padPrsRead0Clear(pad);
+			pad->status = 0x40;
+			padActSet(NULL, sys_pad);
+		}
+		else if ((tag & 0xF0) == 0x70)
+		{
+			// Dualshock
+			padNormalRead(pad, (struct SysPadData*)sys_pad);
+			padAnaRead(pad, (struct SysPadData*)sys_pad);
+			
+			if (sys_pad->data[1] == 0x79)
+			{
+				// Dualshock with pressure data
+				padPrsRead(pad, (struct SysPadData*)sys_pad);
+				pad->status = 0x79;
+				padPrsTreate(pad);
+			}
+			else
+			{
+				// No pressure data
+				padPrsRead0Clear(pad);
+				pad->status = 0x70;
+			}
+		}
+		else
+		{
+			// Bad tag
+			pad0Clear(pad);
+			padAnaRead0Clear(pad);
+			padPrsRead0Clear(pad);
+		}
+
+		padAnaMixPad(pad);
+		padActClear(pad);
+	}
 }
 
 void SetBackColor(int r, int g, int b)
