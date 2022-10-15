@@ -16,9 +16,22 @@ struct MallocReport
 static struct MallocReport usr_malloc_str[256];
 
 // Pad state
-char sysPad[0x40];
+struct SysPad
+{
+	unsigned char data[32];
+	unsigned int id;
+	unsigned int status;
+	unsigned char act_align[6];
+	short unk6;
+	char unk7[6];
+	short unk8;
+	unsigned int unk9;
+	unsigned int unk10;
+};
 
-static char pad_dma_buf[2][0x100];
+struct SysPad sysPad[2];
+
+static char pad_dma_buf[2][0x100] MACRO_AL64;
 
 // Syssub functions
 void WorkClear(void *ptr, size_t size)
@@ -52,6 +65,168 @@ void GPadExit(void)
 	for (i = 0; i < 2; i++)
 		scePadPortClose(i, 0);
 	scePadEnd();
+}
+
+void GPadSysRead(void)
+{
+	int i;
+
+	// Read pads
+	for (i = 0; i < 2; i++)
+	{
+		// Get pad state
+		int state = scePadGetState(i, 0);
+		WorkClear(sysPad[i].data, sizeof(sysPad[i].data));
+		
+		switch (state)
+		{
+			case scePadStateDiscon:
+				// Pad not connected
+				WorkClear(&sysPad[i], sizeof(sysPad[i]));
+				break;
+			case scePadStateFindCTP1:
+			case scePadStateStable:
+				switch (sysPad[i].status)
+				{
+					case 0:
+					{
+						// Get ID
+						int id = scePadInfoMode(i, 0, InfoModeCurID, 0);
+						int exid = scePadInfoMode(i, 0, InfoModeCurExID, 0);
+						if (exid >= 0)
+							id = exid;
+						
+						if (id == 0)
+						{
+							// Pad bad ID
+							WorkClear(&sysPad[i], sizeof(sysPad[i]));
+						}
+						else
+						{
+							// Set pad status
+							sysPad[i].id = id;
+							switch (id)
+							{
+								case 4:
+									sysPad[i].status = 40;
+									break;
+								case 7:
+									sysPad[i].status = 70;
+									break;
+								default:
+									WorkClear(&sysPad[i], sizeof(sysPad[i]));
+									break;
+							}
+						}
+						break;
+					}
+
+					case 40:
+					{
+						// Check if it's an analog controller
+						if (scePadInfoMode(i, 0, InfoModeIdTable, -1) == 0)
+						{
+							sysPad[i].status = 99;
+							break;
+						}
+						sysPad[i].status++;
+					}
+				// Fallthrough
+					case 41:
+					{
+						// Switch to analog mode
+						if (scePadSetMainMode(i, 0, 1, 0) == 1)
+							sysPad[i].status++;
+						break;
+					}
+					case 42:
+					{
+						// Check status
+						if (scePadGetReqState(i, 0) == scePadReqStateFaild)
+							sysPad[i].status--;
+						if (scePadGetReqState(i, 0) == scePadReqStateComplete)
+							sysPad[i].status = 0;
+						break;
+					}
+
+					case 70:
+					{
+						// Check for Dualshock
+						if (scePadInfoMode(i, 0, InfoModeIdTable, -1) == 0)
+						{
+							sysPad[i].status = 99;
+							break;
+						}
+						if (scePadSetMainMode(i, 0, 1, 3) == 1)
+							sysPad[i].status++;
+						break;
+					}
+					case 71:
+					case 77:
+					{
+						// Check status
+						if (scePadGetReqState(i, 0) == scePadReqStateFaild)
+							sysPad[i].status--;
+						if (scePadGetReqState(i, 0) == scePadReqStateComplete)
+							sysPad[i].status = 80;
+						break;
+					}
+					case 72:
+					{
+						if (scePadInfoPressMode(i, 0) == 1)
+						{
+							sysPad[i].status = 80;
+							break;
+						}
+						sysPad[i].status = 76;
+						break;
+					}
+					case 76:
+					{
+						if (scePadEnterPressMode(i, 0) == 1)
+							sysPad[i].status++;
+						break;
+					}
+
+					case 80:
+					{
+						// Get actuator information
+						if (scePadInfoAct(i, 0, -1, 0) == 0)
+							sysPad[i].status = 99;
+						
+						// Set actuator information
+						sysPad[i].act_align[1] = 1;
+						sysPad[i].act_align[5] = 0xFF;
+						sysPad[i].act_align[0] = 0;
+						sysPad[i].act_align[2] = 0xFF;
+						sysPad[i].act_align[3] = 0xFF;
+						sysPad[i].act_align[4] = 0xFF;
+						if (scePadSetActAlign(i, 0, sysPad[i].act_align) == 0)
+							break;
+						
+						sysPad[i].status++;
+						break;
+					}
+					case 81:
+					{
+						// Check status
+						if (scePadGetReqState(i, 0) == scePadReqStateFaild)
+							sysPad[i].status--;
+						if (scePadGetReqState(i, 0) == scePadReqStateComplete)
+							sysPad[i].status = 99;
+						break;
+					}
+				}
+				break;
+			default:
+				break;
+		}
+	}
+}
+
+void padMakeData(Pad *pad, ushort x)
+{
+	
 }
 
 void SetBackColor(int r, int g, int b)

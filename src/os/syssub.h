@@ -3,11 +3,19 @@
 
 #include <stddef.h>
 
+// Syssub types
+struct Pad
+{
+	
+};
+
 // Syssub functions
 void WorkClear(void *ptr, size_t size);
 
 void GPadInit(void);
 void GPadExit(void);
+void GPadSysRead(void);
+void GPadRead(void);
 
 void SetBackColor(int r, int g, int b);
 
