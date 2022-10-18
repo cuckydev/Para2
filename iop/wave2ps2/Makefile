@@ -20,17 +20,18 @@ ILB = src/$(MODULE).ilb
 TBL = $(MODULE).tbl
 ENT = src/$(MODULE).o
 
-LIBS = -ilb=libsd.ilb -ilb=iop.ilb
+LIBS = -ilb=libsd.ilb -ilb=iop.ilb -ilb=cdvdman.ilb
 
-CFLAGS = -I$(TOP)/common/include -Iinclude -Isrc -Wall -G0 -g
-ASFLAGS = -I$(TOP)/common/include -Iinclude -G0
+CFLAGS = -I$(TOP)/common/include -I$(TOP)/../common/include -I../../include -Iinclude -Isrc -Wall -G0 -g
+ASFLAGS = -I$(TOP)/common/include -I$(TOP)/../common/include -I../../include -Iinclude -G0
 
 COMPILE.s = $(CC) $(ASFLAGS) $(CFLAGS)
 
 # Sources
 OBJS = \
 	src/bgm_entr.o \
-	src/bgm_com.o
+	src/bgm_com.o \
+	src/bgm_play.o
 
 # Compile rules
 all: $(IRX)

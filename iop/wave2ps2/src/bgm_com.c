@@ -1,6 +1,8 @@
 #include "bgm_i.h"
 #include <bgmcmd.h>
 
+#include "bgm_play.h"
+
 extern void EnableIntr(int);
 
 // RPC arguments
@@ -33,11 +35,41 @@ int ret = 0;
 static void *bgmFunc(unsigned int command, void *data, int size)
 {
 	// ret = 0;
-	
+
 	switch (command)
 	{
+		case rBgmInit:
+			ret = BgmInit(((int*)data)[0]);
+			break;
+		case rBgmQuit:
+			BgmQuit();
+			break;
+		case rBgmOpen:
+			ret = BgmOpen((const char*)data);
+			break;
+		case rBgmClose:
+		case rBgmPreLoad:
+		case rBgmStart:
+		case rBgmStop:
+		case rBgmSeek:
+		case rBgmSetVolume:
+		case rBgmSetVolumeDirect:
+		case rBgmSetMasterVolume:
+		case rBgmSetMode:
+		case rBgmGetMode:
+		case rBgmSdInit:
+		case rBgmSetChannel:
+		case rBgmCdInit:
+		case rBgmGetTime:
+		case rBgmGetTSample:
+		case rBgmGetCdErrCode:
+		case rBgmOpenFLoc:
+		case rBgmSeekFLoc:
+		case rBgmPreLoadBack:
+		case rBgmSetTrPoint:
+		case rBgmReadBuffFull:
 		default:
-			printf("EzBGM driver error: unknown command %d \n", *((int*)data + 0));
+			printf("EzBGM driver error: unknown command %d \n", ((int*)data)[0]);
 			break;
 	}
 

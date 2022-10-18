@@ -1,8 +1,15 @@
-#include "main.h"
+#include "main/main.h"
+
+#include "os/system.h"
+#include "main/mcctrl.h"
+
+#include "prlib.h"
 
 // Main functions
 void mainStart(void)
 {
-	while (1)
-	printf("mainStart\n");
+	// Initialize systems
+	mccReqInit();
+	CdctrlInit();
+	PrInitializeModule(DBufDc.draw01.zbuf1);
 }

@@ -26,7 +26,7 @@ LIBS = \
 	$(LIBDIR)/libpkt.a \
 	$(LIBDIR)/libpad.a
 
-CFLAGS = -O2 -Wa,-al -fno-common -G0 -Isrc -Iiop/wave2ps2/include -I$(TOP)/../common/include -I$(TOP)/include
+CFLAGS = -O2 -Wa,-al -fno-common -G0 -Iinclude -Isrc -Iprlib -Iiop/wave2ps2/include -I$(TOP)/../common/include -I$(TOP)/include
 CXXFLAGS = $(CFLAGS) -fno-exceptions
 ASFLAGS = -c -xassembler-with-cpp -Wa,-al
 DVPASMFLAGS =
@@ -40,7 +40,11 @@ SRCS = \
 	src/os/syssub.c \
 	src/os/system.c \
 	src/os/cmngifpk.c \
-	src/main/main.c
+	src/main/cdctrl.c \
+	src/main/mcctrl.c \
+	src/main/main.c \
+	prlib/src/prlib.cpp \
+	prlib/src/random.cpp
 
 # Objects
 OBJS = $(addprefix obj/, $(addsuffix .o, $(SRCS)))
@@ -56,6 +60,10 @@ $(TARGET).elf: $(OBJS) $(LIBS)
 obj/%.c.o: %.c
 	@ mkdir -p $(@D)
 	$(CC) $(TMPFLAGS) $(CFLAGS) -MMD -MP -MF $@.d $< -o $@ -c
+
+obj/%.cpp.o: %.cpp
+	@ mkdir -p $(@D)
+	$(CXX) $(TMPFLAGS) $(CXXFLAGS) -MMD -MP -MF $@.d $< -o $@ -c
 
 obj/crt0.o: $(LIBDIR)/crt0.s
 	@ mkdir -p $(@D)
